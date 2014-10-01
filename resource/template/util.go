@@ -131,12 +131,18 @@ func sameConfig(src, dest string) (bool, error) {
 	return true, nil
 }
 
-// Given a url in the form "<oscheme>://<host>:<port>/", return "<nscheme>://<host>:<port>/"
-func changeScheme(newScheme, oldUrl string) string {
-	parsed, err := url.Parse(oldUrl)
+// Allow the extraction of components of a url
+func asUrl(rawUrl string) *url.URL {
+	parsed, err := url.Parse(rawUrl)
 	if err != nil {
 		panic(err)
 	}
+	return parsed
+}
+
+// Given a url in the form "<oscheme>://<host>:<port>/", return "<nscheme>://<host>:<port>/"
+func changeScheme(newScheme, oldUrl string) string {
+	parsed := asUrl(oldUrl)
 	parsed.Scheme = newScheme
 	return parsed.String()
 }

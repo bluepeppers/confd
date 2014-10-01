@@ -121,6 +121,7 @@ func (t *TemplateResource) createStageFile() error {
 	tplFuncMap := make(template.FuncMap)
 	tplFuncMap["Base"] = path.Base
 
+	tplFuncMap["AsUrl"] = asUrl
 	tplFuncMap["ChangeScheme"] = changeScheme
 
 	tplFuncMap["GetDir"] = t.Dirs.Get
