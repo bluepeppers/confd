@@ -12,6 +12,7 @@ import (
 	"path"
 	"strings"
 	"syscall"
+	"net/url"
 
 	"github.com/coreos/go-etcd/etcd"
 	"github.com/kelseyhightower/confd/log"
@@ -128,4 +129,14 @@ func sameConfig(src, dest string) (bool, error) {
 		return false, nil
 	}
 	return true, nil
+}
+
+// Given a url in the form "<oscheme>://<host>:<port>/", return "<nscheme>://<host>:<port>/"
+func changeScheme(newScheme, oldUrl string) string {
+	parsed, err := url.Parse(oldUrl)
+	if err != nil {
+		panic(err)
+	}
+	parsed.Scheme = newScheme
+	return parsed.String()
 }
